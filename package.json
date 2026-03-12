@@ -9,7 +9,6 @@
     "prisma:deploy": "prisma migrate deploy",
     "postinstall": "prisma generate",
     "prisma:reset": "prisma migrate reset --force"
-
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.16",
@@ -34,6 +33,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
     "iconv-lite": "^0.7.2",
+    "mysql2": "^3.19.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
