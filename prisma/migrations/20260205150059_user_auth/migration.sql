@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE `Student` 
+ADD COLUMN `password` VARCHAR(191) NOT NULL DEFAULT 'temporary',
+ADD COLUMN `role` ENUM('ADMIN', 'PETUGAS', 'MEMBER') NOT NULL DEFAULT 'MEMBER';
