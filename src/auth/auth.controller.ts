@@ -8,6 +8,8 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
 import { Roles } from './decorators/roles.decorator';
 import { UserRole } from '@prisma/client';
+import { RegisterStaffDto } from './dto/register-staff.dto';
+
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -37,5 +39,25 @@ export class AuthController {
     @ApiResponse({ status: 403, description: 'Akses ditolak' })
     register(@Body() dto: CreateStudentDto) {
         return this.studentsService.create(dto);
+    }
+
+    @Post('register-admin')
+    @ApiBearerAuth('access-token')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(UserRole.ADMIN)
+    @ApiOperation({ summary: 'Registrasi Admin baru (ADMIN only) - hanya email & password' })
+    @ApiBody({ type: RegisterStaffDto })
+    registerAdmin(@Body() dto: RegisterStaffDto) {
+        return this.authService.registerAdmin(dto.email, dto.password);
+    }
+
+    @Post('register-petugas')
+    @ApiBearerAuth('access-token')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(UserRole.ADMIN)
+    @ApiOperation({ summary: 'Registrasi Petugas baru (ADMIN only) - hanya email & password' })
+    @ApiBody({ type: RegisterStaffDto })
+    registerPetugas(@Body() dto: RegisterStaffDto) {
+        return this.authService.registerPetugas(dto.email, dto.password);
     }
 }

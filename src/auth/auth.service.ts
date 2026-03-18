@@ -51,6 +51,75 @@ export class AuthService {
         };
     }
 
+
+    async registerAdmin(email: string, password: string) {
+        const existingEmail = await this.prisma.student.findUnique({
+            where: { email },
+        });
+        if (existingEmail) {
+            throw new ConflictException('Email sudah terdaftar');
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const student = await this.prisma.student.create({
+            data: {
+                name: 'Admin',
+                nis: `ADM-${Date.now()}`, // auto-generate NIS
+                email,
+                password: hashedPassword,
+                role: 'ADMIN',
+            },
+        });
+
+        const payload = {
+            sub: student.id,
+            email: student.email,
+            name: student.name,
+            role: student.role,
+            nis: student.nis,
+        };
+
+        return {
+            message: 'Registrasi Admin berhasil',
+            access_token: this.jwtService.sign(payload),
+        };
+    }
+
+    async registerPetugas(email: string, password: string) {
+        const existingEmail = await this.prisma.student.findUnique({
+            where: { email },
+        });
+        if (existingEmail) {
+            throw new ConflictException('Email sudah terdaftar');
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const student = await this.prisma.student.create({
+            data: {
+                name: 'Petugas',
+                nis: `PTG-${Date.now()}`, // auto-generate NIS
+                email,
+                password: hashedPassword,
+                role: 'PETUGAS',
+            },
+        });
+
+        const payload = {
+            sub: student.id,
+            email: student.email,
+            name: student.name,
+            role: student.role,
+            nis: student.nis,
+        };
+
+        return {
+            message: 'Registrasi Petugas berhasil',
+            access_token: this.jwtService.sign(payload),
+        };
+    }
+
     async login(email: string, password: string) {
         const student = await this.prisma.student.findUnique({
             where: { email },
