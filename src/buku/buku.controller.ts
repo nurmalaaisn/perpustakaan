@@ -8,7 +8,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '@prisma/client';
 
-@@ApiTags('Buku')
+@ApiTags('Buku')
 @Controller('buku')
 // @UseGuards(JwtAuthGuard)  <-- HAPUS ATAU KOMENTARI BARIS INI
 export class BukuController {
