@@ -42,10 +42,10 @@ export class AuthController {
     }
 
     @Post('register-admin')
-    @ApiBearerAuth('access-token')
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles(UserRole.ADMIN)
-    @ApiOperation({ summary: 'Registrasi Admin baru (ADMIN only) - hanya email & password' })
+    // @ApiBearerAuth('access-token') <--- Komentari dulu
+    // @UseGuards(JwtAuthGuard, RolesGuard) <--- Komentari dulu
+    // @Roles(UserRole.ADMIN) <--- Komentari dulu
+    @ApiOperation({ summary: 'Registrasi Admin baru' })
     @ApiBody({ type: RegisterStaffDto })
     registerAdmin(@Body() dto: RegisterStaffDto) {
         return this.authService.registerAdmin(dto.email, dto.password);
